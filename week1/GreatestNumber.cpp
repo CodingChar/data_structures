@@ -1,10 +1,14 @@
 #include <iostream>
-#include <vector>
 
-int GreatestNumber(const std::vector<int> &vector /*Using T&, no copy, using original*/)
+using namespace std;
+
+int GreatestNumber(int* array, int arrSize /*Recieves a int* pointer and the arr size*/) 
 {
+    if(array == nullptr){
+        std::cerr<<"\nNull Pointer\n";
+        return 0;
+    }
 
-    // I'm using vector because it allows me to recieve dynamic sized arrays
     /*
         I'm Learning about Pointers
         and how does the memory model of C++ works
@@ -17,14 +21,14 @@ int GreatestNumber(const std::vector<int> &vector /*Using T&, no copy, using ori
 
     //Time Complexity: 0(n) , Memory Complexity: 0(1)
 
-    int greatestNumber = vector[0];
+    int greatestNumber = array[0];
 
-    int vectorSize = vector.size();
-    for (int i = 0; i < vectorSize; i++)
+
+    for (int i = 0; i < arrSize; i++)
     {
-        if (vector[i] >= greatestNumber)
+        if (array[i] >= greatestNumber)
         {
-            greatestNumber = vector[i];
+            greatestNumber = array[i];
         }
     }
     return greatestNumber;
@@ -32,7 +36,7 @@ int GreatestNumber(const std::vector<int> &vector /*Using T&, no copy, using ori
 
 int main()
 {
-    std::vector<int> numbers = {1, 2, 3, 5, 0};
+    int numbers[5] = {1, 2, 3, 5, 6};
 
-    std::cout<<std::endl<<GreatestNumber(numbers);
+    std::cout<<std::endl<<GreatestNumber(numbers, 5);
 }
