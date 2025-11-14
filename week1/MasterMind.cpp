@@ -1,6 +1,6 @@
+
+
 #include <iostream>
-#include <cstdlib>
-#include <time.h>
 
 using namespace std;
 
@@ -14,73 +14,24 @@ using namespace std;
 
 */
 
-int dev_genCode(int t)
+void genCode(int* arrPtr)
 {
-    int code[4] = {0, 0, 0, 0};
-
-    srand(t);
-    for (int i = 0; i < 4; i++)
-    {
-        if (i == 0)
-        {
-            code[0] = (rand() % 6) + 1;
-        }
-        else if (i >= 1)
-        {
-            code[i] = (rand() % 6) + 1;
-            for (int u = i - 1; u >= 0; u--)
-            {
-                cout << endl
-                     << "u:->" << u;
-                if (code[i] == code[u])
-                {
-
-                    /*
-                    evaluates if the actual number equals
-                    to the numbers
-                    before
-                    */
-                    code[i] = (rand() % 6) + 1;
-                    if (code[i] == code[u])
-                    {
-                        cout << endl
-                             << "Equals" << endl
-
-                            ;
-                        u += 1;
-                        continue;
-                    }
-                }
-            }
-        }
-    }
-
-    for (int k = 0; k < 4; k++)
-    {
-        cout << code[k];
-    }
-    return 0;
-}
-
-int genCode(int t)
-{
-    /* Shuffling Based 4 digits code Generator Algorithm */
+    /* Shuffling Based 4 digits code Generator Algorithm, digits between 1-6 */
     /* 
         Despues de medio dia, porfin un algoritmo de generacion 
-        con eficiencia O(n)
+        con eficiencia de tiempo O(n) o mas bien O(6)
     */
-    int numbers[6] = {1, 2, 3, 4, 5, 6};
-    srand(t);
-    for (int u = 0; u <= 2; u++)
-    {
-        for (int i = 0; i < 6; i++)
-        {
+    int numbers[6] =  {1, 2, 3, 4, 5, 6};
+
+    srand(time(nullptr));
+        for (int i = 0; i < 6; i++) {
             int temp = numbers[i];
-            int directionShuffle = (rand() % 2)-1; // 0: left, 1: right
-            if (directionShuffle)
+            int directionShuffle = (rand() % 2)+0; // 0: left, 1: right
+            //Debug: std::cout<<std::endl<<directionShuffle<<std::endl;
+            if (directionShuffle==1)
             {
                 // Shuffle to the right
-                if (i <= 5)
+                if (i == 5)
                 {
                     numbers[5] = numbers[0];
                     numbers[0] = temp;
@@ -107,20 +58,18 @@ int genCode(int t)
                 }
             }
         }
-    }
-    for (int k = 0; k < 4; k++)
-    {
-        cout << numbers[k];
-    }
-
-    return 0;
+    arrPtr[0] = numbers[0];
+    arrPtr[1] = numbers[1];
+    arrPtr[2] = numbers[2];
+    arrPtr[3] = numbers[3];
 }
 
-int main()
-{
-    for (int i = 0; i < 100; i++)
-    {
-        cout << endl;
-        genCode(i);
+
+int main(){
+    int code[4]= {};
+
+    genCode(code);
+    for(int i=0; i<4; i++){
+        cout<<code[i];
     }
 }
