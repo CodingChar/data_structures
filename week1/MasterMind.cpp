@@ -15,19 +15,18 @@ using namespace std;
 
 */
 
-void genCode(int (&arrPtr)[4])
+void genCode(int* codeArr)
 {
 
     /*
 
         Shuffling Based 4 digits Code Generator Algorithm, digits between 1-6
 
-        void genCode(int *arrPtr) -> recieves an array  as a argument
+        void genCode(int (&codeArr)[4] ) -> recieves an array  as a argument
+        modifies the array given through his original reference
+        
         then modifies the array using the arrays original reference, so the array obtaints the code
         through the non-biased-shuffle algorithm.
-
-        
-
 
     */
     /*
@@ -45,22 +44,23 @@ void genCode(int (&arrPtr)[4])
     for (int i = 0; i < 6; i++)
     {
         // Temporary variable, helps to the shuffle proccess
-        int temp = numbers[i];
+        int temp = numbers[i]; //3
         // generates a random number based in the distribution
-        std::uniform_int_distribution<int> distribution(0, i); // Sets the range
-        int swapIndex = distribution(generator);
+        std::uniform_int_distribution<int> distribution(0, i); // Sets the range //0, 3
+        int swapIndex = distribution(generator); //0, 3, 2;
         numbers[i] = numbers[swapIndex];
         numbers[swapIndex] = temp;
     }
-    arrPtr[0] = numbers[0];
-    arrPtr[1] = numbers[1];
-    arrPtr[2] = numbers[2];
-    arrPtr[3] = numbers[3];
+
+
+    codeArr[0] = numbers[0];
+    codeArr[1] = numbers[1];
+    codeArr[2] = numbers[2];
+    codeArr[3] = numbers[3];
 }
 
 void converIntToArray(int (&arr)[], int number, int size)
 {
-
     size = size -1; 
     while (size >= 0)
     {
@@ -78,10 +78,10 @@ int main()
     int attemptsLeft = 10;
     int userInput = 0;
 
-    int totalC = 0; //If totalC reaches 3, conclude that the user guessed right;
+    int totalC = 0; //If totalC reaches 4, assume that the user guessed right;
 
     cout << "\t\t \n \n Welcome To MasterMind \n \n \t\t";
-
+    
     cin.clear();
 
 
@@ -93,23 +93,23 @@ int main()
     do
     {
         cout<<"\n\nCode(Attempts Left: "<<attemptsLeft<<")"<<":";        
-        while(!(cin>>userInput))
+        if(!(cin>>userInput))
         {
             cout << "\n\n Invalid code, not a number\n\n";
             cin.clear();
             cin.ignore(1000, '\n');
             userInput=0;
+            continue;
         }
 
-        if(userInput <= 0){
-            cout << "\n\n Must be greater than 0\n\n";            
+        if(userInput <= 0 || userInput >= 6666){
+            cout << "\n\n Not valid combination\n\n";            
         }else{
             converIntToArray(guess, userInput, 4); //O(n);
             cout<<'\n';
-            for(int gi=0; gi<4; gi++){ //O(4) 
-
-                for(int ci=0; ci<4; ci++){ //O(4)
-                    cout<<endl<<"Guess:"<<guess[gi]<<endl<<"Code:"<<code[ci]<<endl;
+            for(int gi=0; gi<4; gi++){ //O(4) //gi = Guess Index
+                for(int ci=0; ci<4; ci++){ //O(4) //ci  = Code Index
+                    //cout<<endl<<"Guess:"<<guess[gi]<<endl<<"Code:"<<code[ci]<<endl;
                     if(gi==ci && guess[gi]==code[ci]){
                         cout<<'C';
                         totalC+=1; 
@@ -128,8 +128,8 @@ int main()
         userInput = 0;
 
         
-        if(totalC >= 3){
-            cout<<"\n You Scored ( "<<10-(10-attemptsLeft)<<" )"<<" points out of ( 10 )";
+        if(totalC >= 4){
+            cout<<"\n\nYou Scored ( "<<10-(10-attemptsLeft)<<" )"<<" points out of ( 10 )";
             break;
         }else{
             cout<<"\n";
@@ -137,4 +137,7 @@ int main()
             attemptsLeft-=1;
         }
     } while (attemptsLeft > 0);
+    if(attemptsLeft<=0){
+        cout<<"\n\n You lose";
+    }
 }

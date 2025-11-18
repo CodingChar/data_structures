@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int GreatestNumber(int* array, int arrSize /*Recieves a int* pointer and the arr size*/) 
+int GreatestNumber(int* array, unsigned int arrSize /*Recieves a int* pointer and the arr size*/) 
 {
     if(array == nullptr){
         std::cerr<<"\nNull Pointer\n";
@@ -24,6 +24,8 @@ int GreatestNumber(int* array, int arrSize /*Recieves a int* pointer and the arr
     int greatestNumber = array[0];
 
 
+
+    
     for (int i = 0; i < arrSize; i++)
     {
         if (array[i] >= greatestNumber)
@@ -37,6 +39,5 @@ int GreatestNumber(int* array, int arrSize /*Recieves a int* pointer and the arr
 int main()
 {
     int numbers[5] = {1, 2, 3, 5, 6};
-
     std::cout<<std::endl<<GreatestNumber(numbers, 5);
 }
