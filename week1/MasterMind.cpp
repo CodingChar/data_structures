@@ -15,7 +15,10 @@ using namespace std;
 
 */
 
-void genCode(int *codeArr) // O(6) -> O(1)
+
+
+
+void genCode(int* codeArr) // O(6) -> O(1)
 {
     /*
 
@@ -23,28 +26,27 @@ void genCode(int *codeArr) // O(6) -> O(1)
 
         void genCode(int* codeArr) -> recieves an int pointer that is supposed to point to an array
         then modifies the array using the arrays original reference, so the array obtaints the code
-        through the non-biased-shuffle algorithm.
-    */
-    /*
-        Despues de medio dia, porfin un algoritmo de generacion
-        con eficiencia de tiempo O(1) o mas bien O(6)
+        through the shuffle algorithm.
+
     */
 
-    int numbers[6] = {1, 2, 3, 4, 5, 6};
+    int numbers[6] = {1, 2, 3, 4, 5, 6}; 
 
-    std::default_random_engine generator; // Defines the generator
+    default_random_engine generator; // Defines the generator
 
     generator.seed(time(0)); // Sets the seed, different seed each time the program runs
 
     for (int i = 0; i < 6; i++)
     {
+    
         // Temporary variable, helps to the shuffle proccess
-        int temp = numbers[i]; // 3
+        int temp = numbers[i];  //2
         // generates a random number based in the distribution
-        std::uniform_int_distribution<int> distribution(0, i); // Sets the range //0, 3
-        int swapIndex = distribution(generator);               // 0, 3, 2;
-        numbers[i] = numbers[swapIndex];
+        uniform_int_distribution<int> distribution(0, i);
+        int swapIndex = distribution(generator);   //0
+        numbers[i] = numbers[swapIndex]; 
         numbers[swapIndex] = temp;
+    
     }
 
     codeArr[0] = numbers[0];
@@ -53,16 +55,17 @@ void genCode(int *codeArr) // O(6) -> O(1)
     codeArr[3] = numbers[3];
 }
 
-void converIntToArray(int *arr, int number, int size) // O(N)
-{
+void converIntToArray(int* arr, int number, int size) // O(N)
+{    
     /*
 
         The function  recieve 3 arguments which are the followed
 
-        # - int *arr -> a pointer that points to a int, expected to be the array
+        # - int* arr -> a pointer that points to a int, expected to be the array
         where we gonna store the digits succesfully
 
         # - int number -> the number itselft that is going to be separated in its digits
+        (exp: )
 
         # - int size ->  the size of the array given as first argument, to know how many digits
         does the programmer wants to store inside
@@ -75,7 +78,7 @@ void converIntToArray(int *arr, int number, int size) // O(N)
         return;
     }
 
-    
+
     size = size - 1;
     while (size >= 0)
     {
@@ -95,15 +98,17 @@ int main()
 
     int totalC = 0; // If totalC reaches 4, assume that the user guessed right;
 
-    cout << "\t\t \n \n Welcome To MasterMind \n \n \t\t";
 
-    cin.clear();
+    cout << "\t\t \n \n Welcome To MasterMind \n \n \t\t";
 
     genCode(code);
 
+    /*
     cout << "\n\n Code Generated \n\n";
     cout << "Code:" << endl
          << code[0] << code[1] << code[2] << code[3] << endl;
+    
+    */
     cout << "\n\nGuess the 4 digits code to win\n\n";
     do
     {
@@ -119,14 +124,18 @@ int main()
             continue;
         }
 
-        if (userInput <= 0 || userInput >= 6666)
+        if (userInput <= 0 || userInput > 6666)
         {
             cout << "\n\n Not valid combination\n\n";
         }
         else
         {
             converIntToArray(guess, userInput, 4); // O(n);
+            
             cout << '\n';
+
+            //code = 1,2,3,4
+            //guess = 6,1,3,4
 
             for (int gi = 0; gi < 4; gi++)     // O(4)
             {                                  // gi = Guess Index
@@ -152,11 +161,9 @@ int main()
             }
         }
 
-        userInput = 0;
-
         if (totalC >= 4)
         {
-            cout << "\n\nYou Scored ( " << 10 - (10 - attemptsLeft) << " )" << " points out of ( 10 )";
+            cout << "\n\nYou Scored ( " << 10 - (10 - attemptsLeft) << " ) points out of ( 10 )";
             break;
         }
         else
@@ -171,3 +178,4 @@ int main()
         cout << "\n\n You lose";
     }
 }
+
