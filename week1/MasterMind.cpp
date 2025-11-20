@@ -75,6 +75,7 @@ void converIntToArray(int *arr, int number, int size) // O(N)
         return;
     }
 
+    
     size = size - 1;
     while (size >= 0)
     {
