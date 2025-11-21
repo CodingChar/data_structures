@@ -15,10 +15,7 @@ using namespace std;
 
 */
 
-
-
-
-void genCode(int* codeArr) // O(6) -> O(1)
+void genCode(int *codeArr) // O(6) -> O(1)
 {
     /*
 
@@ -30,23 +27,22 @@ void genCode(int* codeArr) // O(6) -> O(1)
 
     */
 
-    int numbers[6] = {1, 2, 3, 4, 5, 6}; 
+    int numbers[6] = {1, 2, 3, 4, 5, 6};
 
     default_random_engine generator; // Defines the generator
 
     generator.seed(time(0)); // Sets the seed, different seed each time the program runs
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 1; i < 6; i++)
     {
-    
+
         // Temporary variable, helps to the shuffle proccess
-        int temp = numbers[i];  //2
+        int temp = numbers[i]; // 2
         // generates a random number based in the distribution
         uniform_int_distribution<int> distribution(0, i);
-        int swapIndex = distribution(generator);   //0
-        numbers[i] = numbers[swapIndex]; 
+        int swapIndex = distribution(generator); // 0
+        numbers[i] = numbers[swapIndex];
         numbers[swapIndex] = temp;
-    
     }
 
     codeArr[0] = numbers[0];
@@ -55,8 +51,8 @@ void genCode(int* codeArr) // O(6) -> O(1)
     codeArr[3] = numbers[3];
 }
 
-void converIntToArray(int* arr, int number, int size) // O(N)
-{    
+void converIntToArray(int *arr, int number, int size) // O(N)
+{
     /*
 
         The function  recieve 3 arguments which are the followed
@@ -78,7 +74,6 @@ void converIntToArray(int* arr, int number, int size) // O(N)
         return;
     }
 
-
     size = size - 1;
     while (size >= 0)
     {
@@ -98,7 +93,6 @@ int main()
 
     int totalC = 0; // If totalC reaches 4, assume that the user guessed right;
 
-
     cout << "\t\t \n \n Welcome To MasterMind \n \n \t\t";
 
     genCode(code);
@@ -107,7 +101,7 @@ int main()
     cout << "\n\n Code Generated \n\n";
     cout << "Code:" << endl
          << code[0] << code[1] << code[2] << code[3] << endl;
-    
+
     */
     cout << "\n\nGuess the 4 digits code to win\n\n";
     do
@@ -115,6 +109,8 @@ int main()
         cout << "\n\nCode(Attempts Left: " << attemptsLeft << ")" << ":";
 
         // Input validation
+
+        // If another type than the requested
         if (!(cin >> userInput))
         {
             cout << "\n\n Invalid code, not a number\n\n";
@@ -123,19 +119,51 @@ int main()
             userInput = 0;
             continue;
         }
-
-        if (userInput <= 0 || userInput > 6666)
+        
+        int temp = userInput;
+        bool hasZeroes = false;
+        while (temp > 0)
         {
-            cout << "\n\n Not valid combination\n\n";
+            if (temp % 10 == 0)
+            {
+                hasZeroes = true;
+                break;
+            }
+            temp = temp / 10;
+        }
+        if(hasZeroes) {
+            cerr << "Cannot use zeroes inside the code/combination" << endl;
+            continue;
+        };
+
+        if (userInput < 1111 || userInput > 6666)
+        {
+            cout << "Not valid combination\n\n";
         }
         else
         {
             converIntToArray(guess, userInput, 4); // O(n);
-            
+
+            //Validate if they are not repeated numbers inside the combination
+
+            int hasRepeated = false; 
+            for(int i=0; i<4; i++){ //O(4)
+                for(int k=i; k<4; k++){ //O(4)
+                    if(guess[i]==guess[k] && i!=k){
+                        hasRepeated=true;
+                        break;
+                    }
+                }
+            }
+            if(hasRepeated){
+                cout<<"Cannot have repeated numbers inside the code/combination"<<endl;
+                continue;
+            }
+
             cout << '\n';
 
-            //code = 1,2,3,4
-            //guess = 6,1,3,4
+            // code = 1,2,3,4
+            // guess = 6,1,3,4
 
             for (int gi = 0; gi < 4; gi++)     // O(4)
             {                                  // gi = Guess Index
@@ -163,7 +191,7 @@ int main()
 
         if (totalC >= 4)
         {
-            cout << "\n\nYou Scored ( " << 10 - (10 - attemptsLeft) << " ) points out of ( 10 )";
+            cout << "\n\nYou Scored ( " << attemptsLeft << " ) points out of ( 10 )";
             break;
         }
         else
@@ -178,4 +206,3 @@ int main()
         cout << "\n\n You lose";
     }
 }
-
