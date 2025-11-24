@@ -1,3 +1,5 @@
+
+.gitignore
 .vscode
 *.vscode
 *.exe 
@@ -5,3 +7,5 @@ CMakeLists.txt
 *.idea
 .idea
 ./cmake-build-debug
+
+./testing
