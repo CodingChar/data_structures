@@ -15,14 +15,27 @@ class Stack
 {
 private:
     Node<T> *_topNode = nullptr;
-    Node<T> *_auxNode = nullptr;    
-    int _stackLength  = 0;
+    Node<T> *_auxNode = nullptr;
+    int _stackLength = 0;
+
+    void _ClearStackMemory()
+    {
+
+        Node<T> *curr = _topNode;
+        while (curr != nullptr)
+        {
+            Node<T> *next = curr->next;
+            delete curr;
+            curr = next;
+        }
+    }
+
 public:
     Node<T> *topNode()
     {
         if (_topNode == nullptr)
         {
-            return nullptr;
+            throw runtime_error("Empty stack");
         }
         else
         {
@@ -30,15 +43,15 @@ public:
         }
     }
 
-    T top()
+    T *top()
     {
         if (_topNode == nullptr)
         {
-            return 0;
+            return nullptr;
         }
         else
         {
-            return _topNode->value;
+            return &_topNode->value;
         }
     }
 
@@ -64,7 +77,7 @@ public:
     {
         if (_topNode == nullptr)
         { // If no element in the stack
-            return;
+            throw runtime_error("Empty stack");
         }
         else if (_topNode->next == nullptr)
         { // If only one element in the stack
@@ -80,38 +93,21 @@ public:
             _stackLength -= 1;
         }
     }
-    int getLength(){
+    int getLength()
+    {
         return _stackLength;
     }
     ~Stack()
     {
-        Node<T>* curr = _topNode;
-        while(curr != nullptr){
-            Node<T>* next = curr->next;
-            delete curr;
-            curr = next;
-        }
+        _ClearStackMemory();
     }
 };
 
 int main()
 {
+    int opc = -1;
     Stack<int> stack;
-    cout<<endl<<"Stack Program"<<endl;
-    
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-    stack.push(4);
-    stack.push(5); 
-    stack.push(6);
 
-    cout<<endl<<stack.top()<<endl;
-
+    stack.push(5);
     stack.pop();
-    stack.pop();
-    stack.pop();
-    stack.pop();
-
-    cout<<endl<<stack.top()<<endl;
 }
