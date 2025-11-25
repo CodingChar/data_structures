@@ -15,8 +15,8 @@ class Stack
 {
 private:
     Node<T> *_topNode = nullptr;
-    Node<T> *_auxNode = nullptr;
-
+    Node<T> *_auxNode = nullptr;    
+    int _stackLength  = 0;
 public:
     Node<T> *topNode()
     {
@@ -49,6 +49,7 @@ public:
         {                                                   // If no element at all
             Node<T> *newNode = new Node<T>{value, nullptr}; // Creates a new Node into the heap
             _topNode = newNode;
+            _stackLength += 1;
         }
         else
         {                                                   // If there is a element in the topNode
@@ -56,6 +57,7 @@ public:
             _auxNode = _topNode;
             newNode->next = _auxNode;
             _topNode = newNode;
+            _stackLength += 1;
         }
     }
     void pop()
@@ -68,13 +70,18 @@ public:
         { // If only one element in the stack
             delete _topNode;
             _topNode = nullptr;
+            _stackLength -= 1;
         }
         else
         { // If there are 2 or more elements in the stack;
             _auxNode = _topNode->next;
             delete _topNode;
             _topNode = _auxNode;
+            _stackLength -= 1;
         }
+    }
+    int getLength(){
+        return _stackLength;
     }
     ~Stack()
     {
@@ -91,10 +98,20 @@ int main()
 {
     Stack<int> stack;
     cout<<endl<<"Stack Program"<<endl;
+    
+    stack.push(1);
     stack.push(2);
-    cout<<endl<<stack.top()<<endl; // 2
     stack.push(3);
-    cout<<endl<<stack.top()<<endl; // 3 
-    stack.pop(); 
-    cout<<endl<<stack.top()<<endl; // 2    
+    stack.push(4);
+    stack.push(5); 
+    stack.push(6);
+
+    cout<<endl<<stack.top()<<endl;
+
+    stack.pop();
+    stack.pop();
+    stack.pop();
+    stack.pop();
+
+    cout<<endl<<stack.top()<<endl;
 }
