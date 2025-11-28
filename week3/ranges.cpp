@@ -20,7 +20,7 @@ void GetRangeStats(int arrSize) /* prints the greater and least numbers, the mod
     int greaterNumber = 0;
     int mode = 0;
     int greaterFreq = 0;
-    float standardVariation = 0;
+    float standardDesviation = 0;
     float overall = 0;
     int leastNumber = 1;
     int acc = 0;
@@ -52,7 +52,7 @@ void GetRangeStats(int arrSize) /* prints the greater and least numbers, the mod
     overall = acc/arrSize;
     for(int u=0; u<arrSize; u++){  //O(N)
         int frequency=0;
-        standardVariation = pow(numbersArr[u] - overall, 2);
+        standardDesviation += pow(numbersArr[u] - overall, 2);
         for(int k=0; k<arrSize; k++){ //O(N)
             if(numbersArr[u] == numbersArr[k]){
                 frequency+=1;    
@@ -64,15 +64,12 @@ void GetRangeStats(int arrSize) /* prints the greater and least numbers, the mod
         }
     }
 
-    standardVariation = standardVariation/arrSize-1;
-    standardVariation = sqrt(standardVariation);
+    standardDesviation = sqrt(standardDesviation/arrSize-1);
 
     // Finals Modifications
     acc = acc;
 
-
-    standardVariation = sqrt(standardVariation/arrSize-1);
-    
+   
     //Print Results 
     cout<<"The stats of a set of "<<arrSize<<" random intergers,  ";
     cout << endl
@@ -85,10 +82,10 @@ void GetRangeStats(int arrSize) /* prints the greater and least numbers, the mod
          << "The aritmethic mode is the number: "<<mode<<", its found "<<greaterFreq<<" times"<<endl; 
 
     cout << endl
-        << "The standard variation equals to ="<<standardVariation<<endl;
+        << "The standard desviation equals to ="<<standardDesviation<<endl;
 } //O(N+N^3)
 
 int main()
 {
-    GetRangeStats(1000);
+    GetRangeStats(10);
 }
